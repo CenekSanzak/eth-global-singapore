@@ -20,12 +20,18 @@ jobs:
           node-version: '16' # Specify the Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd demo-app
+          npm install
 
       - name: Build
-        run: npm run build
+        run: |
+          cd demo-app
+          npm run build
 
       - name: Deploy to GitHub Pages
-        run: npm run deploy
+        run: |
+          cd demo-app
+          npm run deploy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
