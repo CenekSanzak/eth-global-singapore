@@ -1,15 +1,28 @@
+// src/app/page.tsx
+
 import Image from 'next/image';
-import { MagnifyingGlassIcon as Search
+import { MagnifyingGlassIcon as Search } from '@heroicons/react/20/solid';
+import { remark } from 'remark';
+import html from 'remark-html';
 
-} from '@heroicons/react/20/solid';
-
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
   const searchTerm = searchParams.searchTerm || '';
-  const results = searchTerm ? [`Result for "${searchTerm}"`] : [];
+  let contentHtml = '';
+
+  if (searchTerm) {
+    const processedContent = await remark()
+      .use(html)
+      .process(`
+# Result 
+
+* for "${searchTerm}"
+`);
+    contentHtml = processedContent.toString();
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100">
@@ -26,7 +39,11 @@ export default function Home({
             className="ml-2"
           />
         </div>
-        <form method="POST" action="/api/search" className="w-full max-w-2xl mb-8">
+        <form
+          method="GET"
+          action="/"
+          className="w-full max-w-2xl mb-8"
+        >
           <div className="flex items-center border-2 border-gray-300 dark:border-gray-700 rounded-full overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
             <input
               type="text"
@@ -43,22 +60,12 @@ export default function Home({
             </button>
           </div>
         </form>
-        <div className="w-full max-w-2xl">
-          {results.length > 0 && (
-            <div>
-              <ul className="space-y-4">
-                {results.map((result, index) => (
-                  <li
-                    key={index}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 transition-transform duration-300 hover:scale-105"
-                  >
-                    {result}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        {searchTerm && (
+          <div
+            className="prose dark:prose-invert" // Apply the 'prose' class
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
+          />
+        )}
       </main>
       <footer className="w-full py-4 text-center text-sm text-gray-500 dark:text-gray-400">
         © 2023 Windmill. All rights reserved.

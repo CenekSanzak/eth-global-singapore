@@ -10,11 +10,20 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.13",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/mdx": "^2.0.13",
     "next": "14.2.13",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
   },
   "devDependencies": {
+    "@types/hast": "^3.0.4",
+    "@types/mdast": "^4.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
