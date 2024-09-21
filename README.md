@@ -2,13 +2,11 @@
 
 ## Description
 
+## Demo App
 
+## Near Tool Contract
 
-## Demo App
-
-## Near Tool Contract
-
-## Phala Backend 
+## Phala Backend
 
 * add_tool_call.sh: Bash script to call add_tool function in the contract
 
