@@ -1,5 +1,8 @@
 # Windmill
 
+<img src="demo-app/public/windmill-logo.png" alt="Project Logo" width="100"/>
+
+
 ## Description
 
 ## Demo App
