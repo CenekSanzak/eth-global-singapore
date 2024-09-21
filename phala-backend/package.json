@@ -25,6 +25,7 @@
     "wyhash": "^1.0.0"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "openai": "^4.56.0",
     "viem": "^2.21.10"
   }

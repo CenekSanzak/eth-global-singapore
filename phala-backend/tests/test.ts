@@ -15,7 +15,7 @@ async function test() {
         method: 'GET',
         path: '/ipfs/CID',
         queries: {
-            chatQuery: ["What is the balance of 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed?"]
+            chatQuery: ["can 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed be a fraud in Optimistic Ethereum"]
         },
         secret: { openaiApiKey: process.env.REDPILL_KEY },
         headers: {},

@@ -3,10 +3,19 @@ import OpenAI from 'openai'
 import { balanceTool } from './tools/getBalance';
 import { networkInfoTool } from './tools/network_info';
 import { OnchainQueryTool } from './tools';
+import { getBlockTraceByNumberAndTxHashTool, getBlockTraceByNumberTool, getSyncedIntervalTool, getTokenDetailsTool, tokenBalancesTool, currentValueTool, getHistoryTool, checkIfWalletFraudTool } from './tools/1inchTrace'
 
 const allTools = [
     balanceTool,
     networkInfoTool,
+    getBlockTraceByNumberAndTxHashTool,
+    getBlockTraceByNumberTool,
+    getSyncedIntervalTool,
+    getTokenDetailsTool,
+    tokenBalancesTool,
+    currentValueTool,
+    getHistoryTool,
+    checkIfWalletFraudTool
 ]
 const tools =  allTools.map((tool) => tool.tool_definition);
 
@@ -29,6 +38,7 @@ You are a helpful assistant that helps users explore onchain data.
 You can provide information about Ethereum addresses, transactions, and more. Use Markdown to format your responses.
 Only use the functions you have been provided with.
 Tool usage limit is 5, so try to finish your response within 5 tool calls.
+Exception: If you are Fraud detecting, do not forget to give a percentage to show the confidence level.
 `.trim();
 const messages: MessageInfo[] = [
     {
