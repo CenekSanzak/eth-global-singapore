@@ -14,7 +14,7 @@
 
     ```bash
 
-    ➜  phala-backend git:(add/web-dapp) ✗ zsh add_tool_call.sh
+    zsh add_tool_call.sh
 
     Unsigned transaction:
 
@@ -62,7 +62,7 @@
 * get_tool_call.sh: Bash script to call get_tool function in the contract
 
     ```bash
-    ➜  phala-backend git:(add/web-dapp) ✗ zsh get_tool_call.sh 
+    zsh get_tool_call.sh 
     ▹▹▸▹▹ Getting a response to a read-only function call ...                                                                                               --------------
     No logs
     --------------
@@ -84,46 +84,46 @@
 * upvote_tool_call.sh: Bash script to call upvote_tool function in the contract
 
     ```bash
-    phala-backend git:(add/web-dapp) ✗ zsh upvote_tool_call.sh
+    zsh upvote_tool_call.sh
 
-Unsigned transaction:
+    Unsigned transaction:
 
-signer_id:    zimbirti.testnet
-receiver_id:  zimbirti.testnet
-actions:
-   -- function call:      
-                   method name:  upvote_tool
-                   args:         {
-                                   "id": 0
-                                 }
-                   gas:          30.0 Tgas
-                   deposit:      0 NEAR
+    signer_id:    zimbirti.testnet
+    receiver_id:  zimbirti.testnet
+    actions:
+    -- function call:      
+                    method name:  upvote_tool
+                    args:         {
+                                    "id": 0
+                                    }
+                    gas:          30.0 Tgas
+                    deposit:      0 NEAR
 
-▹▹▸▹▹ Signing the transaction with a key saved in the secure keychain ...                                                                               
-Your transaction was signed successfully.
-Public key: ed25519:FZitdKeNHiY43Kco8trTwXPEBRpUkuDLkxqKApD2WXJ6
-Signature: ed25519:yU7wokixjvEp9g3LncdNH84oER1y3ag8CGV9H7AMT4pjkui7ecWtNTpWKx9Qe4tGE42DRtY4L38pWeS4gtfxJ7o
-▹▹▹▹▹ Sending transaction ...                                                                                                                           
---- Logs ---------------------------
-Logs [zimbirti.testnet]:
-  Upvoting tool with id 0
-  Tool: [object Object]
---- Result -------------------------
-Empty result
-------------------------------------
+    ▹▹▸▹▹ Signing the transaction with a key saved in the secure keychain ...                                                                               
+    Your transaction was signed successfully.
+    Public key: ed25519:FZitdKeNHiY43Kco8trTwXPEBRpUkuDLkxqKApD2WXJ6
+    Signature: ed25519:yU7wokixjvEp9g3LncdNH84oER1y3ag8CGV9H7AMT4pjkui7ecWtNTpWKx9Qe4tGE42DRtY4L38pWeS4gtfxJ7o
+    ▹▹▹▹▹ Sending transaction ...                                                                                                                           
+    --- Logs ---------------------------
+    Logs [zimbirti.testnet]:
+    Upvoting tool with id 0
+    Tool: [object Object]
+    --- Result -------------------------
+    Empty result
+    ------------------------------------
 
-The "upvote_tool" call to <zimbirti.testnet> on behalf of <zimbirti.testnet> succeeded.
+    The "upvote_tool" call to <zimbirti.testnet> on behalf of <zimbirti.testnet> succeeded.
 
-Gas burned: 10.9 Tgas
-Transaction fee: 0.0010835958954943 NEAR
-Transaction ID: Dz3qxA7AfhZw3n8P6VCGFpozSW2xNWEzCoZ7YBNREQZV
-To see the transaction in the transaction explorer, please open this url in your browser:
-https://explorer.testnet.near.org/transactions/Dz3qxA7AfhZw3n8P6VCGFpozSW2xNWEzCoZ7YBNREQZV
-
-
+    Gas burned: 10.9 Tgas
+    Transaction fee: 0.0010835958954943 NEAR
+    Transaction ID: Dz3qxA7AfhZw3n8P6VCGFpozSW2xNWEzCoZ7YBNREQZV
+    To see the transaction in the transaction explorer, please open this url in your browser:
+    https://explorer.testnet.near.org/transactions/Dz3qxA7AfhZw3n8P6VCGFpozSW2xNWEzCoZ7YBNREQZV
 
 
-Here is your console command if you need to script it or re-run:
-    /Users/dogukan/.nvm/versions/node/v20.11.1/lib/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction zimbirti.testnet upvote_tool json-args '{"id": 0}' prepaid-gas '30.0 Tgas' attached-deposit '0 NEAR' sign-as zimbirti.testnet network-config testnet sign-with-keychain send
+
+
+    Here is your console command if you need to script it or re-run:
+        /Users/dogukan/.nvm/versions/node/v20.11.1/lib/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction zimbirti.testnet upvote_tool json-args '{"id": 0}' prepaid-gas '30.0 Tgas' attached-deposit '0 NEAR' sign-as zimbirti.testnet network-config testnet sign-with-keychain send
     
     ``` 
