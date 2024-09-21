@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { MagnifyingGlassIcon as Search } from '@heroicons/react/20/solid';
 import { remark } from 'remark';
 import html from 'remark-html';
+import { headers } from 'next/headers';
 
 export default async function Home({
   searchParams,
@@ -14,13 +15,26 @@ export default async function Home({
   let contentHtml = '';
 
   if (searchTerm) {
-    const processedContent = await remark()
-      .use(html)
-      .process(`
-# Result 
+    // Construct the absolute URL for the API route
+    const host = headers().get('host') || 'localhost:3000';
+    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+    const apiUrl = `${protocol}://${host}/api/search`;
 
-* for "${searchTerm}"
-`);
+    // Make a server-side fetch request to the API route
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ searchTerm }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data from API: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    const processedContent = await remark().use(html).process(data.result);
     contentHtml = processedContent.toString();
   }
 
@@ -39,11 +53,7 @@ export default async function Home({
             className="ml-2"
           />
         </div>
-        <form
-          method="GET"
-          action="/"
-          className="w-full max-w-2xl mb-8"
-        >
+        <form method="GET" action="/" className="w-full max-w-2xl mb-8">
           <div className="flex items-center border-2 border-gray-300 dark:border-gray-700 rounded-full overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
             <input
               type="text"
@@ -62,7 +72,7 @@ export default async function Home({
         </form>
         {searchTerm && (
           <div
-            className="prose dark:prose-invert" // Apply the 'prose' class
+            className="prose dark:prose-invert"
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         )}

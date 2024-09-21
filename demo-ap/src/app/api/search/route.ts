@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const formData = await request.formData();
-  const searchTerm = formData.get('searchTerm') as string;
+  const body = await request.json();
+  const searchTerm = body.searchTerm as string;
 
-  const { protocol, host } = new URL(request.url);
+  const queryUrl = `https://wapo-testnet.phala.network/ipfs/${process.env.PHALA_CID}?key=${process.env.PHALA_KEY}&chatQuery=${searchTerm}`;
 
-  const redirectURL = new URL(`${protocol}//${host}/`);
-  redirectURL.searchParams.set('searchTerm', searchTerm);
+  const response = await fetch(queryUrl);
+  const data = await response.json();
+  const result = data.message;
 
-  return NextResponse.redirect(redirectURL);
+  return NextResponse.json({ result });
 }
