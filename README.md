@@ -9,6 +9,10 @@
 
 ## Near Tool Contract
 
+## Example Tool
+
+This project is a simple example of how to build a community tool in the windmill. Than it should be added to the contract on the near blockchain. After that, the tool is used by the app.
+
 ## Phala Backend
 
 * add_tool_call.sh: Bash script to call add_tool function in the contract
