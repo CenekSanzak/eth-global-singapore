@@ -16,12 +16,7 @@ export const optimismClient = createPublicClient({
   transport: http(),
 });
 
-export const goerliClient = createPublicClient({
-  chain: goerli,
-  transport: http(),
-});
-
-export const viemNetworks = ['mainnet', 'arbitrum', 'optimism', 'goerli'] as const;
+export const viemNetworks = ['mainnet', 'arbitrum', 'optimism'] as const;
 
 export type Network = (typeof viemNetworks)[number];
 
@@ -30,7 +25,6 @@ const clients: Record<Network, PublicClient|any> = {
   mainnet: mainnetClient,
   arbitrum: arbitrumClient,
   optimism: optimismClient,
-  goerli: goerliClient,
 };
 
 export function getClient(network: Network): PublicClient{
