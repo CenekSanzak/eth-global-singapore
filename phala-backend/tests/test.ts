@@ -6,10 +6,8 @@ async function test() {
     let getResult = await execute({
         method: 'GET',
         path: '/ipfs/CID',
-        queries: {
-            queries: { chatQuery: ["Please suggest some activities based on my location and the weather."] },
-        },
-        secret: { openaiApiKey: 'YOUR_OPENAI_API_KEY' },
+        queries: { chatQuery: ["Talk about 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed"] },
+        secret: { openaiApiKey: process.env.REDPILL_KEY },
         headers: {},
     })
     console.log('GET RESULT:', JSON.parse(getResult))
@@ -17,9 +15,9 @@ async function test() {
         method: 'GET',
         path: '/ipfs/CID',
         queries: {
-            chatQuery: ["What are some activities based in Brussels today?"]
+            chatQuery: ["What is the balance of 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed?"]
         },
-        secret: { openaiApiKey: 'YOUR_OPENAI_API_KEY' },
+        secret: { openaiApiKey: process.env.REDPILL_KEY },
         headers: {},
     })
     console.log('GET RESULT:', JSON.parse(getResult))
