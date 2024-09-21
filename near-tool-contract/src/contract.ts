@@ -1,13 +1,15 @@
 // Find all our documentation at https://docs.near.org
-import { NearBindgen, near, call, view } from 'near-sdk-js';
-
+import { NearBindgen, near, call, view, Vector } from 'near-sdk-js';
+import {Tool} from "./model";
 @NearBindgen({})
-class HelloNear {
-
+class AgentToolContract {
+  
   static schema = {
-    greeting: 'string'
+    greeting: 'string',
+    'tools': { class: Vector, value: Tool }
   };
-
+  
+  tools: Vector<Tool> = new Vector<Tool>("v-uid");
   greeting: string = 'Hello';
 
   @view({}) // This method is read-only and can be called for free
@@ -20,4 +22,25 @@ class HelloNear {
     near.log(`Saving greeting ${greeting}`);
     this.greeting = greeting;
   }
+
+  @call({}) 
+  add_tool({ tool }: { tool: Tool }): void {
+    tool.votes = 0;
+    this.tools.push(tool);
+  }
+
+  @call({})
+  upvote_tool({ id }: { id: number }): void {
+    near.log(`Upvoting tool with id ${id}`);
+    const tool = this.tools.get(id);
+    near.log(`Tool: ${tool}`);
+    tool.votes += 1;
+    this.tools.replace(id, tool);
+  }
+
+  @view({})
+  get_tools(): Tool[] {
+    return this.tools.toArray();
+  }
+
 }
