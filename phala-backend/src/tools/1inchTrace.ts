@@ -3,7 +3,7 @@ const axios = require("axios");
 import OpenAI from 'openai'
 //TODO: returnleri düzelt
 const BASE_URL_TRACE = "https://api.1inch.dev/traces/v1.0/chain";
-const headers = { "Authorization": `Bearer ${process.env.API_KEY}`, "accept": "application/json" };
+const headers = { "Authorization": `Bearer qnKvtzyL7lc7K8DiuL0GCcksuXi0Te9p`, "accept": "application/json" };
 const chain_ids = {
     "RabbitHole": 1,
     "Aurora": 1313161554,
@@ -67,7 +67,7 @@ async function getBlockTraceByNumberAndTxHash({chainName, blockNumber, txHash}: 
 async function getTokenDetails({walletAddress, chainId}: {walletAddress: string, chainId: number}) {
     const endpoint = `https://api.1inch.dev/portfolio/portfolio/v4/overview/erc20/details?addresses=${walletAddress}&chain_id=${chainId}`;
     const data = await fetch(endpoint, {
-      headers: { Authorization: `Bearer ${process.env.API_KEY}` }
+      headers: { Authorization: `Bearer qnKvtzyL7lc7K8DiuL0GCcksuXi0Te9p` }
     }).then((res) => res.json());
     return data;
 }
@@ -100,7 +100,7 @@ async function getCurrentValue({walletAddress, chainName}: {walletAddress: strin
     let chainId = chain_ids[chainName as keyof typeof chain_ids];   
     const endpoint = `https://api.1inch.dev/portfolio/portfolio/v4/overview/erc20/current_value?addresses=${walletAddress}&chain_id=${chainId}`;
     const data = await fetch(endpoint, {
-      headers: { Authorization: `Bearer ${process.env.API_KEY}` }
+      headers: { Authorization: `Bearer qnKvtzyL7lc7K8DiuL0GCcksuXi0Te9p` }
     }).then((res) => res.json());
     return data;
 }

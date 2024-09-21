@@ -43,7 +43,6 @@ const messages: MessageInfo[] = [
 
 async function agent(openai: any, userInput: any) {
     const communityTools = await getCommunityTools();
-    console.log(JSON.stringify(communityTools));
     const allTools = [...baseTools, ...communityTools];
     const tools =  allTools.map((tool) => tool.tool_definition);
     const availableTools:{
