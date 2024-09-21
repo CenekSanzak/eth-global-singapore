@@ -4,8 +4,9 @@ import { balanceTool } from './tools/getBalance';
 import { networkInfoTool } from './tools/network_info';
 import { OnchainQueryTool } from './tools';
 import { getBlockTraceByNumberAndTxHashTool, getBlockTraceByNumberTool, getSyncedIntervalTool, getTokenDetailsTool, tokenBalancesTool, currentValueTool, getHistoryTool, checkIfWalletFraudTool } from './tools/1inchTrace'
+import { getCommunityTools } from './tools/getCommunityTools';
 
-const allTools = [
+const baseTools = [
     balanceTool,
     networkInfoTool,
     getBlockTraceByNumberAndTxHashTool,
@@ -17,16 +18,7 @@ const allTools = [
     getHistoryTool,
     checkIfWalletFraudTool
 ]
-const tools =  allTools.map((tool) => tool.tool_definition);
 
-const availableTools:{
-    [key: string]: CallableFunction
-} = allTools.reduce((acc: 
-    {[key: string]: CallableFunction},
-     tool: OnchainQueryTool) => {
-    acc[tool.tool_definition?.function?.name ] = tool.function;
-    return acc;
-}, {});
 
 type MessageInfo = {
     role: any,
@@ -47,7 +39,22 @@ const messages: MessageInfo[] = [
     },
 ];
 
+
+
 async function agent(openai: any, userInput: any) {
+    const communityTools = await getCommunityTools();
+    console.log(JSON.stringify(communityTools));
+    const allTools = [...baseTools, ...communityTools];
+    const tools =  allTools.map((tool) => tool.tool_definition);
+    const availableTools:{
+        [key: string]: CallableFunction
+    } = allTools.reduce((acc: 
+        {[key: string]: CallableFunction},
+        tool: OnchainQueryTool) => {
+        acc[tool.tool_definition?.function?.name ] = tool.function;
+        return acc;
+    }, {});
+    
     messages.push({
         role: "user",
         content: userInput,
