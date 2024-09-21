@@ -1,0 +1,1 @@
+near view zimbirti.testnet get_tools
