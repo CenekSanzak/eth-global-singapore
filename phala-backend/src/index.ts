@@ -1,48 +1,23 @@
 import { Request, Response, route } from './httpSupport'
-import { createPublicClient, formatEther, http } from 'viem';
-import { mainnet } from 'viem/chains';
 import OpenAI from 'openai'
+import { balanceTool } from './tools/getBalance';
+import { networkInfoTool } from './tools/network_info';
+import { OnchainQueryTool } from './tools';
 
-// Initialize the Viem client
-const client = createPublicClient({
-  chain: mainnet,
-  transport: http(),
-});
+const allTools = [
+    balanceTool,
+    networkInfoTool,
+]
+const tools =  allTools.map((tool) => tool.tool_definition);
 
-async function getBalance(address: `0x{string}`) {
-  try {
-    const balance = await client.getBalance({ address });
-    return { balance:
-        `As wei: ${balance.toString()}, as ether: ${formatEther(balance)}`
-        };
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
-
-const tools = [
-  {
-    type: 'function',
-    function: {
-      name: 'getBalance',
-      description: 'Get the balance of an Ethereum address',
-      parameters: {
-        type: 'object',
-        properties: {
-          address: {
-            type: 'string',
-            description: 'The Ethereum address to check the balance of',
-          },
-        },
-        required: ['address'],
-      },
-    },
-  },
-];
-
-const availableTools = {
-    getBalance,
-};
+const availableTools:{
+    [key: string]: CallableFunction
+} = allTools.reduce((acc: 
+    {[key: string]: CallableFunction},
+     tool: OnchainQueryTool) => {
+    acc[tool.tool_definition?.function?.name ] = tool.function;
+    return acc;
+}, {});
 
 type MessageInfo = {
     role: any,
@@ -53,6 +28,7 @@ const SYSTEM_PROMPT = `
 You are a helpful assistant that helps users explore onchain data. 
 You can provide information about Ethereum addresses, transactions, and more. Use Markdown to format your responses.
 Only use the functions you have been provided with.
+Tool usage limit is 5, so try to finish your response within 5 tool calls.
 `.trim();
 const messages: MessageInfo[] = [
     {
@@ -67,12 +43,13 @@ async function agent(openai: any, userInput: any) {
         content: userInput,
     });
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) {
         console.log(`[${i}]chat`)
+        const toolsToUse = i<5 ? tools : undefined;
         const response = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: messages,
-            tools: tools,
+            tools: toolsToUse,
         });
 
         const { finish_reason, message } = response.choices[0];
@@ -81,11 +58,7 @@ async function agent(openai: any, userInput: any) {
             const functionName:string = message.tool_calls[0].function.name;
             const functionToCall = availableTools[functionName];
             const functionArgs = JSON.parse(message.tool_calls[0].function.arguments);
-            const functionArgsArr = Object.values(functionArgs);
-            const functionResponse = await functionToCall.apply(
-                null,
-                functionArgsArr
-            );
+            const functionResponse = await functionToCall(functionArgs)
 
             messages.push({
                 role: "function",
@@ -94,7 +67,7 @@ async function agent(openai: any, userInput: any) {
                 The result of the last function was this: ${JSON.stringify(
                     functionResponse
                 )}
-                `,
+                `.trim(),
             });
         } else if (finish_reason === "stop") {
             messages.push(message);

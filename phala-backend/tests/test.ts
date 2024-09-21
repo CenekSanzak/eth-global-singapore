@@ -6,7 +6,7 @@ async function test() {
     let getResult = await execute({
         method: 'GET',
         path: '/ipfs/CID',
-        queries: { chatQuery: ["Talk about 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed"] },
+        queries: { chatQuery: ["Talk about 0xBC62f0Ef98cC40Bd8B21e279a6dBff1b3586Ffed, in several networks"] },
         secret: { openaiApiKey: process.env.REDPILL_KEY },
         headers: {},
     })
