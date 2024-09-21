@@ -1,4 +1,4 @@
-# Wındmill
+# Windmill
 
 ## Description
 
